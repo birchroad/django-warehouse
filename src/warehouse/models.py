@@ -1,23 +1,22 @@
-from django.db import models
+from django.db.models import Model, CharField, FloatField, DateTimeField, ForeignKey
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum
 from django.contrib.auth.models import User
 
-from managers import LocationManager, ItemManager, BomEntryManager
+from managers import LocationManager, ItemManager, BomEntryManager 
+from managers import ItemJournalManager
+from constants import *
 
-INVENTORY = 0
-MOVEMENT = 1
-SALES = 2
-PURCHASE = 3
+__all__ = ['Location', 'Item', 'BomEntry', 'ItemJournal', 'ItemEntry']
 
-class Location(models.Model):
-    code = models.CharField(_('code'), max_length=25, unique=True)
-    description = models.CharField(_('description'), max_length=100)
-    lon = models.FloatField(_('longitude'), blank=True, null=True)
-    lat = models.FloatField(_('latitude'), blank=True, null=True)
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
-    updated_by = models.ForeignKey(User)
+class Location(Model):
+    code = CharField(_('code'), max_length=25, unique=True)
+    description = CharField(_('description'), max_length=100)
+    lon = FloatField(_('longitude'), blank=True, null=True)
+    lat = FloatField(_('latitude'), blank=True, null=True)
+    created_at = DateTimeField(_('created at'), auto_now_add=True)
+    updated_at = DateTimeField(_('updated at'), auto_now=True)
+    updated_by = ForeignKey(User)
     objects = LocationManager()
     
     class Meta:
@@ -31,13 +30,13 @@ class Location(models.Model):
         return (self.code,)
  
     
-class Item(models.Model):
-    code = models.CharField(_('code'), max_length=25, unique=True)
-    description = models.CharField(_('description'), max_length=100)
-    #identifier=models.CharField(_('identifier'), max_length=50, blank=True, null=True)
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
-    updated_by = models.ForeignKey(User)
+class Item(Model):
+    code = CharField(_('code'), max_length=25, unique=True)
+    description = CharField(_('description'), max_length=100)
+    #identifier=CharField(_('identifier'), max_length=50, blank=True, null=True)
+    created_at = DateTimeField(_('created at'), auto_now_add=True)
+    updated_at = DateTimeField(_('updated at'), auto_now=True)
+    updated_by = ForeignKey(User)
     objects = ItemManager()
     
     class Meta:
@@ -52,6 +51,9 @@ class Item(models.Model):
         return (self.code,)
 
     def inventory(self, location=None):
+        '''
+        returns items in inventory for a location (if given) or all.
+        '''
         if location:
             sum = self.item_entries.filter(location=location).aggregate(Sum('qty'))['qty__sum']
         else:
@@ -62,13 +64,13 @@ class Item(models.Model):
             return 0
 
 
-class BomEntry(models.Model):
-    parent = models.ForeignKey(Item, related_name='bom')
-    item = models.ForeignKey(Item)
-    qty = models.FloatField(_('qty'))
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('updated at'), auto_now=True)
-    updated_by = models.ForeignKey(User)
+class BomEntry(Model):
+    parent = ForeignKey(Item, related_name='bom')
+    item = ForeignKey(Item)
+    qty = FloatField(_('quantity'))
+    created_at = DateTimeField(_('created at'), auto_now_add=True)
+    updated_at = DateTimeField(_('updated at'), auto_now=True)
+    updated_by = ForeignKey(User)
     objects = BomEntryManager()
     
     class Meta:
@@ -84,32 +86,19 @@ class BomEntry(models.Model):
     natural_key.dependencies = ['warehouse.item']
 
 
-class ItemJournalManager(models.Manager):
-    #TODO: howto ensure all this is done as a transaction?
-    def move(self, item, from_location, to_location, qty, updated_by_id):
-        journal = ItemJournal(journal_type=ItemJournal.TYPE_CHOICES[MOVEMENT][0], updated_by_id=updated_by_id)
-        journal.save()
-        journal.change(item, from_location, qty * -1)
-        journal.change(item, to_location, qty)
-        return journal
-    
-    def change(self, type_no, item, at_location, qty, updated_by_id):
-        journal = ItemJournal(journal_type=ItemJournal.TYPE_CHOICES[type_no][0], updated_by_id=updated_by_id)
-        journal.save()
-        journal.change(item, at_location, qty)
-        return journal
 
-class ItemJournal(models.Model):
+
+class ItemJournal(Model):
     TYPE_CHOICES = (
         ('INVENTORY', _('Inventory')),
         ('MOVEMENT', _('Movement')),
         ('SALES', _('Sales')),
         ('PURCHASE', _('Purchase')),
     )
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    journal_type = models.CharField(_('journal type'), max_length=10, choices=TYPE_CHOICES)
-    note = models.CharField(_('note'), max_length=100)
-    updated_by = models.ForeignKey(User)
+    created_at = DateTimeField(_('created at'), auto_now_add=True)
+    journal_type = CharField(_('journal type'), max_length=10, choices=TYPE_CHOICES)
+    note = CharField(_('note'), max_length=100)
+    updated_by = ForeignKey(User)
     objects = ItemJournalManager()
     
     class Meta:
@@ -118,6 +107,7 @@ class ItemJournal(models.Model):
     
     def __unicode__(self):
         return u'%s' % (self.journal_type)
+        
     
     def change(self, item, at_location, qty):    
         bom_list = item.bom.all()
@@ -131,14 +121,14 @@ class ItemJournal(models.Model):
             self.entries.create(item=item, location=at_location, qty=qty, updated_by_id=self.updated_by_id)
     
  
-class ItemEntry(models.Model):
-    journal = models.ForeignKey(ItemJournal, related_name='entries')
-    created_at = models.DateTimeField(_('created at'), auto_now_add=True)
-    item = models.ForeignKey(Item, related_name='item_entries')
-    location = models.ForeignKey(Location)
-    qty = models.FloatField(_('qty'), default=1)
-    related_item = models.ForeignKey(Item, related_name='related_entries', blank=True, null=True)
-    updated_by = models.ForeignKey(User)
+class ItemEntry(Model):
+    journal = ForeignKey(ItemJournal, related_name='entries')
+    created_at = DateTimeField(_('created at'), auto_now_add=True)
+    item = ForeignKey(Item, related_name='item_entries')
+    location = ForeignKey(Location)
+    qty = FloatField(_('quantity'), default=1)
+    related_item = ForeignKey(Item, related_name='related_entries', blank=True, null=True)
+    updated_by = ForeignKey(User)
     
     def __unicode__(self):
         return u'%s;%s;%s;%s' % (self.journal, self.item.code, self.location.code, self.qty)

@@ -62,8 +62,8 @@ msgid "items"
 msgstr "artiklar"
 
 #: .\models.py:58 .\models.py:123
-msgid "qty"
-msgstr "kvant"
+msgid "quantity"
+msgstr "antal"
 
 #: .\models.py:64
 msgid "BOM entry"
