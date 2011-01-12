@@ -103,6 +103,17 @@
     }
   }, 
   {
+    "pk": 8, 
+    "model": "warehouse.item", 
+    "fields": {
+      "created_at": "2010-02-24 07:00:00", 
+      "code": "test", 
+      "description": "<b>asdf</b>", 
+      "updated_by": 1, 
+      "updated_at": "2011-01-12 20:33:36"
+    }
+  }, 
+  {
     "pk": 1, 
     "model": "warehouse.bomentry", 
     "fields": {

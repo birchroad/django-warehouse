@@ -1,7 +1,8 @@
-from django.db.models import Model, CharField, FloatField, DateTimeField, ForeignKey
+from django.db.models import Model, CharField, FloatField, DateTimeField, ForeignKey, BooleanField
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from managers import LocationManager, ItemManager, BomEntryManager 
 from managers import ItemJournalManager
@@ -37,6 +38,7 @@ class Item(Model):
     created_at = DateTimeField(_('created at'), auto_now_add=True)
     updated_at = DateTimeField(_('updated at'), auto_now=True)
     updated_by = ForeignKey(User)
+    blocked = BooleanField(default=False)
     objects = ItemManager()
     
     class Meta:
@@ -49,6 +51,9 @@ class Item(Model):
     
     def natural_key(self):
         return (self.code,)
+    
+    def get_absolute_url(self):
+        return reverse('warehouse_item_detail', kwargs={'item_code':self.code})
 
     def inventory(self, location=None):
         '''

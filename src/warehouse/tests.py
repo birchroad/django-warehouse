@@ -1,8 +1,10 @@
 from models import *
-
+from django.test.client import Client
 from django.test import TestCase
 from django.db.models import Sum
+from django.core.urlresolvers import reverse
 
+from constants import INVENTORY
 
 class SimpleTest(TestCase):
     fixtures = ('warehouse_test_data',)
@@ -45,7 +47,34 @@ class SimpleTest(TestCase):
         self.assertEqual('<ItemEntry: MOVEMENT;1001;002;2.0>', repr(entries_list[6]))
         self.assertEqual('<ItemEntry: MOVEMENT;1002;002;2.0>', repr(entries_list[7]))
         
-        
+class WebTests(TestCase):
+    fixtures = ('warehouse_test_data',)
+    
+    def test_index(self):
+        c = Client(enforce_csrf_checks=True)
+        url = reverse('warehouse_index')
+        response = c.get(url, follow=True)
+        self.assertEqual(200, response.status_code)
+       
+    def test_item_list(self):
+        itemcount = Item.objects.all().count()
+        self.assertTrue(itemcount>0)
+        c = Client(enforce_csrf_checks=True)
+        url = reverse('warehouse_item_index')
+        response = c.get(url, follow=True)
+        self.assertEqual(200, response.status_code)
+        self.assertTrue(response.context['item_list'])
+        self.assertContains(response, '<tr', itemcount)
+        item = Item.objects.all()[0]
+        self.assertContains(response, item.get_absolute_url(), 1, msg_prefix=response.content)
+        self.assertContains(response, 'asdf', 1)
+        self.assertNotContains(response, '<br>')
+    
+    def test_item_detail(self):
+        c = Client(enforce_csrf_checks=True)
+        url = reverse('warehouse_item_detail',  kwargs={'item_code':'1002'})
+        response = c.get(url, follow=True)
+        self.assertEqual(200, response.status_code)
 
 __test__ = {"doctest": """
 Another way to test that 1 + 1 is equal to 2.
