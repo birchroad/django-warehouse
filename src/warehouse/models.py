@@ -67,7 +67,25 @@ class Item(Model):
             return sum
         else:
             return 0
-
+    
+    def location_inventory(self):
+        '''
+        Return Locations for the item and it's aggregated .qty_sum
+        for self
+        '''
+        #from warehouse.db import SumCase
+        #locations = Location.objects.aggregate(qty_sum=SumCase('item_entries__qty',  when=self.id ))
+        
+        #TODO: Fixa och använd SumCase eller möjligtvis .extra i stället
+        sql = """SELECT loc.*, 
+            Sum(CASE WHEN (ie.item_id=%(item)s) THEN ie.qty ELSE 0 END) as qty_sum
+            FROM warehouse_location loc LEFT JOIN 
+             warehouse_itementry ie ON ie.location_id = loc.id
+             GROUP BY ie.location_id
+             ORDER BY loc.code
+        """
+        locations = Location.objects.raw(sql % {'item': self.id})
+        return locations
 
 class BomEntry(Model):
     parent = ForeignKey(Item, related_name='bom')
@@ -130,7 +148,7 @@ class ItemEntry(Model):
     journal = ForeignKey(ItemJournal, related_name='entries')
     created_at = DateTimeField(_('created at'), auto_now_add=True)
     item = ForeignKey(Item, related_name='item_entries')
-    location = ForeignKey(Location)
+    location = ForeignKey(Location, related_name='item_entries')
     qty = FloatField(_('quantity'), default=1)
     related_item = ForeignKey(Item, related_name='related_entries', blank=True, null=True)
     updated_by = ForeignKey(User)

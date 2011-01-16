@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('warehouse.views',
      url(r'^$', 'index', name='warehouse_index'),
+     
      url(r'^item/$', 'item_list', name='warehouse_item_index'),
      url(r'^item/(?P<item_code>\w+)/$', 'item_detail', name='warehouse_item_detail'),
      

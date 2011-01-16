@@ -1,6 +1,8 @@
 from os.path import dirname, join
 import logging
 
+DEBUG=True
+
 TEST_ROOT = dirname(__file__)
 
 logging.basicConfig(
@@ -11,7 +13,9 @@ logging.basicConfig(
 )
 
 INSTALLED_APPS = ('warehouse', 'tests',
-                  'django.contrib.sites',)
+                  'django.contrib.sites',
+                  'django.contrib.auth',
+                  'django.contrib.contenttypes',)
 
 DATABASES = {
     'default': {
