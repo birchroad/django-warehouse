@@ -10,6 +10,6 @@ and item locations.
 Future
 ------
 In no order what so ever...
-* Managing batches
-* Item identifiers, ie barcodes
+- Managing batches
+- Item identifiers, ie barcodes
 
