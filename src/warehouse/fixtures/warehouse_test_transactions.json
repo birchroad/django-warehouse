@@ -1,0 +1,524 @@
+[
+    {
+        "pk": 1, 
+        "model": "warehouse.location", 
+        "fields": {
+            "code": "001", 
+            "description": "Test location 1", 
+            "created_at": "2010-02-24 07:00:00", 
+            "lon": null, 
+            "updated_at": "2011-01-12 20:33:35", 
+            "lat": null, 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "warehouse.location", 
+        "fields": {
+            "code": "002", 
+            "description": "Test location 2", 
+            "created_at": "2010-02-24 07:00:00", 
+            "lon": null, 
+            "updated_at": "2011-01-12 20:33:35", 
+            "lat": null, 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "warehouse.location", 
+        "fields": {
+            "code": "003", 
+            "description": "Test location 3", 
+            "created_at": "2010-02-24 07:00:00", 
+            "lon": null, 
+            "updated_at": "2011-01-12 20:33:35", 
+            "lat": null, 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "1001", 
+            "description": "Paddel", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "1002", 
+            "description": "Flytv\u00e4st", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "1003", 
+            "description": "Transportvagn", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "1004", 
+            "description": "Kanadensare, Alu", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "1005", 
+            "description": "Kanadensare, Plast", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "1006", 
+            "description": "1Pers Kanotutrustning", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "1007", 
+            "description": "Paket, 2pers, Kanadensare, Alu", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "warehouse.item", 
+        "fields": {
+            "code": "test", 
+            "description": "<b>asdf</b>", 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "updated_by": 1, 
+            "blocked": false
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "warehouse.bomentry", 
+        "fields": {
+            "updated_by": 1, 
+            "parent": 6, 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "qty": 1.0, 
+            "item": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "warehouse.bomentry", 
+        "fields": {
+            "updated_by": 1, 
+            "parent": 6, 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "qty": 1.0, 
+            "item": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "warehouse.bomentry", 
+        "fields": {
+            "updated_by": 1, 
+            "parent": 7, 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "qty": 1.0, 
+            "item": 4
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "warehouse.bomentry", 
+        "fields": {
+            "updated_by": 1, 
+            "parent": 7, 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "qty": 1.0, 
+            "item": 3
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "warehouse.bomentry", 
+        "fields": {
+            "updated_by": 1, 
+            "parent": 7, 
+            "created_at": "2010-02-24 07:00:00", 
+            "updated_at": "2011-01-12 20:33:36", 
+            "qty": 2.0, 
+            "item": 6
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "INVENTORY", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "INVENTORY", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "INVENTORY", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "INVENTORY", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "INVENTORY", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "MOVEMENT", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "MOVEMENT", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "warehouse.itemjournal", 
+        "fields": {
+            "note": "", 
+            "created_at": "2011-01-12 23:59:03", 
+            "journal_type": "MOVEMENT", 
+            "updated_by": 1
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 1, 
+            "qty": 10.0, 
+            "item": 1, 
+            "location": 1, 
+            "related_item": null
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 2, 
+            "qty": 10.0, 
+            "item": 2, 
+            "location": 1, 
+            "related_item": null
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 3, 
+            "qty": 10.0, 
+            "item": 3, 
+            "location": 1, 
+            "related_item": null
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 4, 
+            "qty": 10.0, 
+            "item": 4, 
+            "location": 1, 
+            "related_item": null
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 5, 
+            "qty": 10.0, 
+            "item": 5, 
+            "location": 1, 
+            "related_item": null
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 6, 
+            "qty": -2.0, 
+            "item": 1, 
+            "location": 1, 
+            "related_item": null
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 6, 
+            "qty": 2.0, 
+            "item": 1, 
+            "location": 2, 
+            "related_item": null
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 7, 
+            "qty": -1.0, 
+            "item": 1, 
+            "location": 1, 
+            "related_item": 6
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 7, 
+            "qty": -1.0, 
+            "item": 2, 
+            "location": 1, 
+            "related_item": 6
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 7, 
+            "qty": 1.0, 
+            "item": 1, 
+            "location": 2, 
+            "related_item": 6
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 7, 
+            "qty": 1.0, 
+            "item": 2, 
+            "location": 2, 
+            "related_item": 6
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": -1.0, 
+            "item": 4, 
+            "location": 1, 
+            "related_item": 7
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": -1.0, 
+            "item": 3, 
+            "location": 1, 
+            "related_item": 7
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": -2.0, 
+            "item": 1, 
+            "location": 1, 
+            "related_item": 6
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": -2.0, 
+            "item": 2, 
+            "location": 1, 
+            "related_item": 6
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": 1.0, 
+            "item": 4, 
+            "location": 2, 
+            "related_item": 7
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": 1.0, 
+            "item": 3, 
+            "location": 2, 
+            "related_item": 7
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": 2.0, 
+            "item": 1, 
+            "location": 2, 
+            "related_item": 6
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "warehouse.itementry", 
+        "fields": {
+            "created_at": "2011-01-12 23:59:03", 
+            "updated_by": 1, 
+            "journal": 8, 
+            "qty": 2.0, 
+            "item": 2, 
+            "location": 2, 
+            "related_item": 6
+        }
+    }
+]
