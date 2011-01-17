@@ -10,6 +10,8 @@ and item locations.
 Future
 ------
 In no order what so ever...
+
 - Managing batches
 - Item identifiers, ie barcodes
+- Support for different currency codes in prices
 

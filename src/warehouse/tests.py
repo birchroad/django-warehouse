@@ -1,11 +1,19 @@
+# coding=utf-8
 from models import *
 from django.test.client import Client
 from django.test import TestCase
-from django.db.models import Sum
+
 from django.core.urlresolvers import reverse
 
 from constants import INVENTORY
 import sys
+
+def dumpdata():
+    from django.core.management import call_command
+    sys.stdout = open('dumped_data.json', 'w')
+    call_command('dumpdata', 'warehouse', format='json', indent=4, )
+    sys.stdout.close()
+    sys.stdout = sys.__stdout__
 
 class SimpleTest(TestCase):
     fixtures = ('warehouse_test_data',)
@@ -51,11 +59,26 @@ class SimpleTest(TestCase):
         self.assertEqual('<ItemEntry: MOVEMENT;1001;002;2.0>', repr(entries_list[6]))
         self.assertEqual('<ItemEntry: MOVEMENT;1002;002;2.0>', repr(entries_list[7]))
         
-        from django.core.management import call_command
-        sys.stdout = open('dumped_data.json', 'w')
-        call_command('dumpdata', 'warehouse', format='json', indent=4, )
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__
+        
+        
+        test_item = Item.objects.get_by_natural_key('1002')
+        test_item.prices.create(starting_at='2010-01-01', amount='5.0')
+        from decimal import Decimal
+        self.assertEqual(test_item.current_price.amount, Decimal('5.0'))
+        
+        baseprice=10
+        index =1
+        for item in Item.objects.all():
+            price = ItemPrice(item=item, amount='%s.59' % (baseprice * index))
+            index+=1
+            price.save()
+        dumpdata()
+        
+        
+        self.assertEqual(test_item.current_price.amount, Decimal('20.59'))
+        
+        
+        
         
         
         
@@ -126,8 +149,9 @@ class ComplesTests(TestCase):
         
 
 __test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
+testing of warehouse
 
+>>> from django.db.models import Sum
 >>> item1 = Item(code='1', description='test 1', updated_by_id=1)
 >>> item1.save()
 >>> item1.id >0

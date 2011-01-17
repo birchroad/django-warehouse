@@ -1,4 +1,8 @@
-from django.db.models import Model, CharField, FloatField, DateTimeField, ForeignKey, BooleanField
+# coding=utf-8
+from django.db.models import Model, CharField, FloatField
+from django.db.models import DateTimeField, ForeignKey, BooleanField
+from django.db.models import DecimalField, DateField
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Sum
 from django.contrib.auth.models import User
@@ -8,7 +12,12 @@ from managers import LocationManager, ItemManager, BomEntryManager
 from managers import ItemJournalManager
 from constants import *
 
-__all__ = ['Location', 'Item', 'BomEntry', 'ItemJournal', 'ItemEntry']
+from datetime import timedelta, date
+
+__all__ = ['Location', 'Item', 'BomEntry', 'ItemJournal', 'ItemEntry',
+           'ItemPrice']
+
+
 
 class Location(Model):
     code = CharField(_('code'), max_length=25, unique=True)
@@ -86,6 +95,18 @@ class Item(Model):
         """
         locations = Location.objects.raw(sql % {'item': self.id})
         return locations
+    
+    @property
+    def current_price(self):
+        '''
+        Returns the correct price for today
+        '''
+        return self.price_for(date.today())
+    
+    def price_for(self, for_date):
+        return self.prices.get(Q(starting_at__lte=for_date), 
+                               Q(ending_at__gt=for_date)|
+                               Q(ending_at__isnull=True))
 
 class BomEntry(Model):
     parent = ForeignKey(Item, related_name='bom')
@@ -155,4 +176,27 @@ class ItemEntry(Model):
     
     def __unicode__(self):
         return u'%s;%s;%s;%s' % (self.journal, self.item.code, self.location.code, self.qty)
+    
+    
+class ItemPrice(Model):
+    item = ForeignKey(Item, related_name='prices')
+    amount = DecimalField(name=_('price'), max_digits=8, decimal_places=2)
+    starting_at = DateField(default=date.today)
+    ending_at = DateField(blank=True, null=True, default=None)
+    
+    def save(self, end_previous=True, *args, **kwargs):
+        super(ItemPrice, self).save(*args, **kwargs)
+        if end_previous:
+            '''
+            Making sure that the previous price for this item ends at 
+            a appropriate date.
+            '''
+            try:
+                prev = self.get_previous_by_starting_at(item=self.item)
+                prev.ending_at=self.starting_at -timedelta(days=1)
+                prev.save()
+            except ItemPrice.DoesNotExist:
+                #nothing to do..., first in line
+                pass
+        
     

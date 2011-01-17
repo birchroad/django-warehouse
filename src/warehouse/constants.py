@@ -1,3 +1,4 @@
+# coding=utf-8
 INVENTORY = 0
 MOVEMENT = 1
 SALES = 2
